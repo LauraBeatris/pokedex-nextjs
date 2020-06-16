@@ -10,6 +10,18 @@ const Pokemon: React.FC = () => {
     axios,
   );
 
+  if (error) {
+    return (
+      <div>
+        <p>Error while searching for pokemon</p>
+      </div>
+    );
+  }
+
+  if (!response) {
+    return <div>Loading...</div>
+  }
+
   const formattedPokemon = {
     ...(response?.data ? {
       ...response?.data,
@@ -20,14 +32,6 @@ const Pokemon: React.FC = () => {
     }
       : {}),
   };
-
-  if (error) {
-    return (
-      <div>
-        <p>Error while searching for pokemon</p>
-      </div>
-    );
-  }
 
   return (
     <div>

@@ -10,6 +10,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
       .status(400)
       .send("You must provide a name in order to find a pokemon");
   }
+
   const pokemonFound = pokemonData.find(
     ({ name: { english } }) => english === req.query.name,
   );
