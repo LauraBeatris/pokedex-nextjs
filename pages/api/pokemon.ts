@@ -9,16 +9,16 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
       .status(400)
       .send('You must provide a name in order to find a pokemon');
   } else {
-    const pokemonsFound = pokemonData.find(
+    const pokemonFound = pokemonData.find(
       ({ name: { english } }) => english === req.query.name
     );
 
     res.setHeader("Content-Type", "application/json")
 
-    if (pokemonsFound) {
+    if (pokemonFound) {
       return res
         .status(200)
-        .send(JSON.stringify(pokemonsFound))
+        .send(JSON.stringify(pokemonFound))
     } else {
       return res
         .status(404)

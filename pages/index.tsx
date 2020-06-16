@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useRouter } from "next/router";
+import Link from 'next/link';
 import axios from 'axios';
 import useSWR from 'swr';
 
@@ -54,7 +55,9 @@ export default function Home() {
                   title={pokemon.title}
                 />
 
-                <strong>{pokemon.name}</strong>
+                <Link href={`/pokemon/${pokemon.name}`}>
+                  <strong>{pokemon.name}</strong>
+                </Link>
                 <span>{pokemon.type.join(", ")}</span>
               </li>
             ))}
