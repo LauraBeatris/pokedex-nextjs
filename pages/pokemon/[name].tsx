@@ -1,27 +1,32 @@
-import { useRouter } from 'next/router';
-import Head from 'next/head';
-import axios from 'axios';
-import useSWR from 'swr';
+import { useRouter } from "next/router";
+import Head from "next/head";
+import axios from "axios";
+import useSWR from "swr";
 
-const Pokemon = () => {
+const Pokemon: React.FC = () => {
   const { query } = useRouter();
-  const { data: response, error } = useSWR(`/api/pokemon?name=${escape(query.name as string)}`, axios);
+  const { data: response, error } = useSWR(
+    `/api/pokemon?name=${escape(query.name as string)}`,
+    axios,
+  );
+
   const formattedPokemon = {
     ...(response?.data ? {
       ...response?.data,
       image: `/pokemon/${response?.data.name.english
         .toLowerCase()
         .replace(" ", "-")}.jpg`,
-      name: response?.data.name.english
-    } : {})
-  }
+      name: response?.data.name.english,
+    }
+      : {}),
+  };
 
   if (error) {
     return (
       <div>
         <p>Error while searching for pokemon</p>
       </div>
-    )
+    );
   }
 
   return (
@@ -41,15 +46,18 @@ const Pokemon = () => {
         />
       </div>
       <ul>
-        {!!formattedPokemon.base && Object.entries(formattedPokemon.base).map(([key, value]) => (
-          <li>
-            <strong>{key}</strong>
-            <span>{value}</span>
-          </li>
-        ))}
+        {!!formattedPokemon.base && (
+          Object.entries(formattedPokemon.base)
+            .map(([key, value]) => (
+              <li>
+                <strong>{key}</strong>
+                <span>{value}</span>
+              </li>
+            ))
+        )}
       </ul>
     </div>
-  )
-}
+  );
+};
 
 export default Pokemon;

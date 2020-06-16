@@ -1,21 +1,24 @@
-import { useState, useCallback } from 'react';
+import React, { useState, useCallback } from "react";
 import { useRouter } from "next/router";
-import Link from 'next/link';
-import axios from 'axios';
-import useSWR from 'swr';
+import Link from "next/link";
+import axios from "axios";
+import useSWR from "swr";
 
-export default function Home() {
+const Home: React.FC = () => {
   const { query } = useRouter();
   const [search, setSearch] = useState(query.name || "");
   const { data: response } = useSWR(`/api/search?name=${search}`, axios);
 
-  const formattedPokemons = response?.data?.map((pokemon) => ({
-      ...pokemon,
-      image: `/pokemon/${pokemon.name.english
-        .toLowerCase()
-        .replace(" ", "-")}.jpg`,
-      name: pokemon.name.english
-    })
+  const formattedPokemons = response?.data?.map(
+    (pokemon) => (
+      ({
+        ...pokemon,
+        image: `/pokemon/${pokemon.name.english
+          .toLowerCase()
+          .replace(" ", "-")}.jpg`,
+        name: pokemon.name.english,
+      })
+    )
   );
 
   const handleSearch = useCallback((event) => {
@@ -46,24 +49,28 @@ export default function Home() {
 
         {!!formattedPokemons?.length && (
           <ul>
-            {formattedPokemons.map(pokemon => (
-              <li>
-                <img
-                  src={pokemon.image}
-                  aria-label={pokemon.name}
-                  alt={pokemon.name}
-                  title={pokemon.title}
-                />
+            {
+              formattedPokemons.map(pokemon => (
+                <li key={pokemon.id}>
+                  <img
+                    src={pokemon.image}
+                    aria-label={pokemon.name}
+                    alt={pokemon.name}
+                    title={pokemon.title}
+                  />
 
-                <Link href={`/pokemon/${pokemon.name}`}>
-                  <strong>{pokemon.name}</strong>
-                </Link>
-                <span>{pokemon.type.join(", ")}</span>
-              </li>
-            ))}
+                  <Link href={`/pokemon/${pokemon.name}`}>
+                    <strong>{pokemon.name}</strong>
+                  </Link>
+                  <span>{pokemon.type.join(", ")}</span>
+                </li>
+              ))
+            }
           </ul>
-      )}
+        )}
       </section>
     </div>
-  )
-}
+  );
+};
+
+export default Home;
