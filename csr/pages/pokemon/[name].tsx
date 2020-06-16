@@ -45,11 +45,12 @@ const Pokemon: React.FC = () => {
           title={formattedPokemon.title}
         />
       </div>
+
       <ul>
         {!!formattedPokemon.base && (
           Object.entries(formattedPokemon.base)
             .map(([key, value]) => (
-              <li>
+              <li key={key}>
                 <strong>{key}</strong>
                 <span>{value}</span>
               </li>
