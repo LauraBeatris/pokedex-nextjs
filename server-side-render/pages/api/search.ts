@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import pokemonData from "pokemon.json";
 
-export default (req: NextApiRequest, res: NextApiResponse) => {
+export default (req: NextApiRequest, res: NextApiResponse): void => {
   const filter = req.query.name
     ? new RegExp(req.query.name as string, "i")
     : /.*/;

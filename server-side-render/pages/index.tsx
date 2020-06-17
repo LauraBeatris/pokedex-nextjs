@@ -9,10 +9,9 @@ export const getServerSideProps: GetServerSideProps = async ({
   req,
   query,
 }) => {
-  let apiUrl =
-    req && req.headers && req.headers.host
-      ? "http://" + req.headers.host
-      : window.location.origin;
+  const apiUrl = req && req.headers && req.headers.host
+    ? `http://${req.headers.host}`
+    : window.location.origin;
 
   const response = await axios.get(`${apiUrl}/api/search?name=${query.search}`);
 
@@ -40,7 +39,7 @@ const Home: React.FC = ({
   const { data: response } = useSWR(`/api/search?name=${search}`, axios);
 
   useEffect(() => {
-    const pokemons = response?.data?.map((pokemon) => {
+    const formattedPokemons = response?.data?.map((pokemon) => {
       const image = `/pokemon/${pokemon.name.english
         .toLowerCase()
         .replace(" ", "-")}.jpg`;
@@ -52,7 +51,7 @@ const Home: React.FC = ({
       };
     });
 
-    setPokemons(pokemons);
+    setPokemons(formattedPokemons);
   }, [response?.data?.map]);
 
   const handleSearch = useCallback((event) => {

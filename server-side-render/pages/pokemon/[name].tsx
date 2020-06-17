@@ -6,13 +6,12 @@ export const getServerSideProps: GetServerSideProps = async ({
   req,
   query,
 }) => {
-  let apiUrl =
-    req && req.headers && req.headers.host
-      ? "http://" + req.headers.host
-      : window.location.origin;
+  const apiUrl = req && req.headers && req.headers.host
+    ? `http://${req.headers.host}`
+    : window.location.origin;
 
   const response = await axios(
-    `${apiUrl}/api/pokemon?name=${escape(query.name as string)}`
+    `${apiUrl}/api/pokemon?name=${escape(query.name as string)}`,
   );
 
   const image = `/pokemon/${response?.data.name.english
@@ -23,44 +22,42 @@ export const getServerSideProps: GetServerSideProps = async ({
     ...response.data,
     image,
     name: response.data.name.english,
-  }
+  };
 
   return {
     props: {
       pokemon,
     },
-  }
+  };
 };
 
-const Pokemon: React.FC = ({ pokemon }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  return (
+const Pokemon: React.FC = ({ pokemon }: InferGetServerSidePropsType<typeof getServerSideProps>) => (
+  <div>
+    <Head>
+      <title>{(pokemon && pokemon.name) || "Pokemon"}</title>
+    </Head>
+
+    <h1>{pokemon.name}</h1>
+
     <div>
-      <Head>
-        <title>{(pokemon && pokemon.name) || "Pokemon"}</title>
-      </Head>
+      <img
+        src={pokemon.image}
+        aria-label={pokemon.name}
+        alt={pokemon.name}
+        title={pokemon.title}
+      />
+    </div>
 
-      <h1>{pokemon.name}</h1>
-
-      <div>
-        <img
-          src={pokemon.image}
-          aria-label={pokemon.name}
-          alt={pokemon.name}
-          title={pokemon.title}
-        />
-      </div>
-
-      <ul>
-        {!!pokemon.base &&
-          Object.entries(pokemon.base).map(([key, value]) => (
+    <ul>
+      {!!pokemon.base
+          && Object.entries(pokemon.base).map(([key, value]) => (
             <li key={key}>
               <strong>{key}</strong>
               <span>{value}</span>
             </li>
           ))}
-      </ul>
-    </div>
-  );
-};
+    </ul>
+  </div>
+);
 
 export default Pokemon;

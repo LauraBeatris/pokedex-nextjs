@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import pokemonData from "pokemon.json";
 
-export default (req: NextApiRequest, res: NextApiResponse) => {
+export default (req: NextApiRequest, res: NextApiResponse): void => {
   const { name } = req.query;
 
   if (!name) {
@@ -22,6 +22,7 @@ export default (req: NextApiRequest, res: NextApiResponse) => {
       .status(200)
       .send(JSON.stringify(pokemonFound));
   }
+
   return res
     .status(404)
     .send(`Pokemon ${name} not found`);

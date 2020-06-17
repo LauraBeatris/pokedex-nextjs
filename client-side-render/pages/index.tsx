@@ -11,19 +11,19 @@ const Home: React.FC = () => {
   const { data: response } = useSWR(`/api/search?name=${search}`, axios);
 
   useEffect(() => {
-    const pokemons = response?.data?.map((pokemon) => {
-        const image = `/pokemon/${pokemon.name.english
-          .toLowerCase()
-          .replace(" ", "-")}.jpg`;
+    const formattedPokemons = response?.data?.map((pokemon) => {
+      const image = `/pokemon/${pokemon.name.english
+        .toLowerCase()
+        .replace(" ", "-")}.jpg`;
 
-        return {
-          ...pokemon,
-          image,
-          name: pokemon.name.english,
-        }
+      return {
+        ...pokemon,
+        image,
+        name: pokemon.name.english,
+      };
     });
 
-    setPokemons(pokemons);
+    setPokemons(formattedPokemons);
   }, [response?.data?.map]);
 
   const handleSearch = useCallback((event) => {
@@ -31,7 +31,7 @@ const Home: React.FC = () => {
   }, []);
 
   if (!response) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   return (

@@ -1,14 +1,32 @@
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import axios from "axios";
 import useSWR from "swr";
 
 const Pokemon: React.FC = () => {
+  const [pokemon, setPokemon] = useState(null);
   const { query } = useRouter();
   const { data: response, error } = useSWR(
     `/api/pokemon?name=${escape(query.name as string)}`,
     axios,
   );
+
+  useEffect(() => {
+    if (response?.data) {
+      const image = `/pokemon/${response?.data.name.english
+        .toLowerCase()
+        .replace(" ", "-")}.jpg`;
+
+      const formattedPokemon = {
+        ...response.data,
+        image,
+        name: response?.data.name.english,
+      };
+
+      setPokemon(formattedPokemon);
+    }
+  }, [response?.data]);
 
   if (error) {
     return (
@@ -19,40 +37,29 @@ const Pokemon: React.FC = () => {
   }
 
   if (!response) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
-
-  const formattedPokemon = {
-    ...(response?.data ? {
-      ...response?.data,
-      image: `/pokemon/${response?.data.name.english
-        .toLowerCase()
-        .replace(" ", "-")}.jpg`,
-      name: response?.data.name.english,
-    }
-      : {}),
-  };
 
   return (
     <div>
       <Head>
-        <title>{(response?.data && formattedPokemon.name) || "Pokemon"}</title>
+        <title>{(response?.data && pokemon.name) || "Pokemon"}</title>
       </Head>
 
-      <h1>{formattedPokemon.name}</h1>
+      <h1>{pokemon.name}</h1>
 
       <div>
         <img
-          src={formattedPokemon.image}
-          aria-label={formattedPokemon.name}
-          alt={formattedPokemon.name}
-          title={formattedPokemon.title}
+          src={pokemon.image}
+          aria-label={pokemon.name}
+          alt={pokemon.name}
+          title={pokemon.title}
         />
       </div>
 
       <ul>
-        {!!formattedPokemon.base && (
-          Object.entries(formattedPokemon.base)
+        {!!pokemon.base && (
+          Object.entries(pokemon.base)
             .map(([key, value]) => (
               <li key={key}>
                 <strong>{key}</strong>
