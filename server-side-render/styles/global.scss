@@ -1,0 +1,23 @@
+* {
+  padding: 0;
+  margin: 0;
+  outline: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font: 'Lato', sans-serif 16px;
+  --webkit-font-smoothing: antialiased !important;
+}
+
+body, html {
+  min-height: 100%;
+}
+
+input, text-area, button {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
