@@ -36,16 +36,12 @@ const Pokemon: React.FC = () => {
     );
   }
 
-  if (!response) {
+  if (!pokemon) {
     return <div>Loading...</div>;
   }
 
   return (
     <div>
-      <Head>
-        <title>{(response?.data && pokemon.name) || "Pokemon"}</title>
-      </Head>
-
       <h1>{pokemon.name}</h1>
 
       <div>

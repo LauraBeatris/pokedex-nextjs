@@ -1,6 +1,12 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
+import {
+  Typography,
+  Layout,
+  Input,
+  Row,
+  Col,
+} from "antd";
 import axios from "axios";
 import useSWR from "swr";
 
@@ -30,55 +36,44 @@ const Home: React.FC = () => {
     setSearch(event.target.value);
   }, []);
 
-  if (!response) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <div className="container">
-      <header>
-        <img
-          src="images/pikachu.png"
-          aria-label="Pikachu"
-          alt="Pikachu"
-          title="Pikachu"
-        />
+    <Layout style={{ background: "none", padding: "18px 29px" }}>
+      <Layout.Header style={{ background: 'none', color: 'primary', padding: "0" }}>
+        <Row style={{ flexDirection: "column" }}>
+          <Col style={{ display: 'flex', flexDirection: 'column' }}>
+            <Typography.Title level={1} style={{ margin: 0, lineHeight: 1}}>Pokedex</Typography.Title>
+            <Typography.Text style={{ fontSize: 14, lineHeight: '0px', margin: "10px 0 20px" }}>
+              Client Side Rendering
+            </Typography.Text>
+          </Col>
+        </Row>
 
-        <h1>Pokedex</h1>
-      </header>
-
-      <section>
-        <input
-          type="text"
-          placeholder="Search for a pokemon"
-          aria-label="Search for a pokemon"
-          onChange={handleSearch}
-          value={search}
-        />
-
-        {!!pokemons?.length && (
-          <ul>
-            {
-              pokemons.map(pokemon => (
-                <li key={pokemon.id}>
-                  <img
-                    src={pokemon.image}
-                    aria-label={pokemon.name}
-                    alt={pokemon.name}
-                    title={pokemon.title}
-                  />
-
-                  <Link href={`/pokemon/${pokemon.name}`}>
-                    <strong>{pokemon.name}</strong>
-                  </Link>
-                  <span>{pokemon.type.join(", ")}</span>
-                </li>
-              ))
-            }
-          </ul>
-        )}
-      </section>
-    </div>
+        <Row>
+          <Input.Search
+            placeholder="Search for a pokemon"
+            onChange={handleSearch}
+            value={search}
+            style={{ width: "250px" }}
+          />
+        </Row>
+      </Layout.Header>
+      <Layout.Content style={{ marginTop: 90 }}>
+      <Row gutter={[24, 16]}>
+        {
+          (pokemons || []).map(pokemon => (
+            <Col span={12} style={{
+              backgroundColor: '#FF5555',
+              borderRadius: 8,
+              minHeight: 184,
+              width: 182
+            }}>
+              <Typography.Text className="pokemon-name">{pokemon.name}</Typography.Text>
+            </Col>
+          ))
+        }
+      </Row>
+      </Layout.Content>
+    </Layout>
   );
 };
 
