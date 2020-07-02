@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import pokemonData from "pokemon.json";
+import getPokemonImage from "utils/getPokemonImage"
 
 export default (req: NextApiRequest, res: NextApiResponse): void => {
   const { name } = req.query;
@@ -11,19 +12,25 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
       .send("You must provide a name in order to find a pokemon");
   }
 
-  const pokemonFound = pokemonData.find(
+  const findPokemon = pokemonData.find(
     ({ name: { english } }) => english === req.query.name,
   );
 
   res.setHeader("Content-Type", "application/json");
 
-  if (pokemonFound) {
+  if (!findPokemon) {
     return res
-      .status(200)
-      .send(JSON.stringify(pokemonFound));
+      .status(404)
+      .send(`Pokemon ${name} not found`);
+  }
+
+  const pokemon = {
+    ...findPokemon,
+    image: getPokemonImage(findPokemon.name.english),
+    name: findPokemon.name.english
   }
 
   return res
-    .status(404)
-    .send(`Pokemon ${name} not found`);
+    .status(200)
+    .send(JSON.stringify(pokemon));
 };

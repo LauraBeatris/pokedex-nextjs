@@ -1,69 +1,70 @@
-import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
+import { Spin, Layout, Row, Col, Typography, Tag } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 import axios from "axios";
 import useSWR from "swr";
 
+import GoBackArrowIcon from "../../public/images/icons/go-back-arrow.svg";
+import "../../../styles/pages/details.less";
+
 const Pokemon: React.FC = () => {
-  const [pokemon, setPokemon] = useState(null);
   const { query } = useRouter();
   const { data: response, error } = useSWR(
     `/api/pokemon?name=${escape(query.name as string)}`,
-    axios,
+    axios
   );
-
-  useEffect(() => {
-    if (response?.data) {
-      const image = `/pokemon/${response?.data.name.english
-        .toLowerCase()
-        .replace(" ", "-")}.jpg`;
-
-      const formattedPokemon = {
-        ...response.data,
-        image,
-        name: response?.data.name.english,
-      };
-
-      setPokemon(formattedPokemon);
-    }
-  }, [response?.data]);
 
   if (error) {
     return (
-      <div>
-        <p>Error while searching for pokemon</p>
-      </div>
+      <Layout className="pokemon-details">
+        <Typography.Title>Error while searching for pokemon</Typography.Title>
+      </Layout>
     );
   }
 
-  if (!pokemon) {
-    return <div>Loading...</div>;
-  }
-
   return (
-    <div>
-      <h1>{pokemon.name}</h1>
+    <Layout className="pokemon-details">
+      <Layout.Header className="pokemon-details-header">
+        <Link href="/">
+          <GoBackArrowIcon />
+        </Link>
+      </Layout.Header>
+      {response?.data ? (
+         <Layout.Content>
+           <Row className="layout-content-wrapper">
+            <img
+                src={response.data.image}
+                aria-label={response.data.name}
+              />
 
-      <div>
-        <img
-          src={pokemon.image}
-          aria-label={pokemon.name}
-          alt={pokemon.name}
-          title={pokemon.title}
-        />
-      </div>
-
-      <ul>
-        {!!pokemon.base && (
-          Object.entries(pokemon.base)
-            .map(([key, value]) => (
-              <li key={key}>
-                <strong>{key}</strong>
-                <span>{value}</span>
-              </li>
-            ))
-        )}
-      </ul>
-    </div>
+            <Col className="pokemon-info">
+              <Typography.Title
+                  level={1}
+                  className="pokemon-name"
+                >
+                  {response.data.name}
+                </Typography.Title>
+            </Col>
+            <Col>
+              <ul>
+                {
+                  Object.entries(response.data.base)
+                    .map(([key, value]) => (
+                      <li key={key}>
+                        <strong>{key}</strong>
+                        <Tag color="magenta">{value}</Tag>
+                      </li>
+                    ))
+                }
+              </ul>
+            </Col>
+           </Row>
+        </Layout.Content>
+      ) : (
+        <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
+      )}
+    </Layout>
   );
 };
 

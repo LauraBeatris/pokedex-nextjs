@@ -14,6 +14,8 @@ import { LoadingOutlined } from '@ant-design/icons';
 import axios from "axios";
 import useSWR from "swr";
 
+import "../../styles/pages/search.less";
+
 const Home: React.FC = () => {
   const { query } = useRouter();
   const [search, setSearch] = useState(query.name || "");
@@ -27,7 +29,7 @@ const Home: React.FC = () => {
 
   return (
     <Layout className="ant-layout">
-      <Layout.Header className="ant-header">
+      <Layout.Header>
         <Row>
           <Col>
             <Typography.Title
@@ -76,7 +78,7 @@ const Home: React.FC = () => {
 
                     <Row>
                       <img
-                        src={pokemon?.image}
+                        src={pokemon.image}
                         aria-label={pokemon.name}
                         alt={pokemon.name}
                       />
