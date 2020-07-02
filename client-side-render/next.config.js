@@ -1,14 +1,15 @@
 const withLess = require('@zeit/next-less')
+const withCSS = require('@zeit/next-css')
 const withImages = require('next-images')
 const lessToJS = require('less-vars-to-js')
 const fs = require('fs')
 const path = require('path')
 
 const themeVariables = lessToJS(
-  fs.readFileSync(path.resolve(__dirname, '..', './styles/antd-custom.less'), 'utf8')
+  fs.readFileSync(path.resolve(__dirname, '..', 'styles/antd-theme.less'), 'utf8')
 )
 
-module.exports = withImages(withLess({
+module.exports = withImages(withCSS(withLess({
   lessLoaderOptions: {
     javascriptEnabled: true,
     modifyVars: themeVariables,
@@ -36,4 +37,4 @@ module.exports = withImages(withLess({
     }
     return config
   },
-}));
+})));
