@@ -1,48 +1,42 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { useRouter } from "next/router";
+import Link from 'next/link'
 import {
   Typography,
   Layout,
   Input,
   Row,
   Col,
+  Spin,
+  Tag
 } from "antd";
+import { LoadingOutlined } from '@ant-design/icons';
 import axios from "axios";
 import useSWR from "swr";
 
 const Home: React.FC = () => {
   const { query } = useRouter();
-  const [pokemons, setPokemons] = useState([]);
   const [search, setSearch] = useState(query.name || "");
   const { data: response } = useSWR(`/api/search?name=${search}`, axios);
-
-  useEffect(() => {
-    const formattedPokemons = response?.data?.map((pokemon) => {
-      const image = `/pokemon/${pokemon.name.english
-        .toLowerCase()
-        .replace(" ", "-")}.jpg`;
-
-      return {
-        ...pokemon,
-        image,
-        name: pokemon.name.english,
-      };
-    });
-
-    setPokemons(formattedPokemons);
-  }, [response?.data?.map]);
 
   const handleSearch = useCallback((event) => {
     setSearch(event.target.value);
   }, []);
 
+  console.log(response)
+
   return (
-    <Layout style={{ background: "none", padding: "18px 29px" }}>
-      <Layout.Header style={{ background: 'none', color: 'primary', padding: "0" }}>
-        <Row style={{ flexDirection: "column" }}>
-          <Col style={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography.Title level={1} style={{ margin: 0, lineHeight: 1}}>Pokedex</Typography.Title>
-            <Typography.Text style={{ fontSize: 14, lineHeight: '0px', margin: "10px 0 20px" }}>
+    <Layout className="ant-layout">
+      <Layout.Header className="ant-header">
+        <Row>
+          <Col>
+            <Typography.Title
+              level={1}
+              className="application-title"
+            >
+              Pokedex
+            </Typography.Title>
+            <Typography.Text className="technology-subtitle">
               Client Side Rendering
             </Typography.Text>
           </Col>
@@ -53,23 +47,51 @@ const Home: React.FC = () => {
             placeholder="Search for a pokemon"
             onChange={handleSearch}
             value={search}
-            style={{ width: "250px" }}
           />
         </Row>
       </Layout.Header>
-      <Layout.Content style={{ marginTop: 90 }}>
-      <Row gutter={[24, 16]}>
+      <Layout.Content>
+      <Row gutter={[24, 16]} className="pokemons-container">
         {
-          (pokemons || []).map(pokemon => (
-            <Col span={12} style={{
-              backgroundColor: '#FF5555',
-              borderRadius: 8,
-              minHeight: 184,
-              width: 182
-            }}>
-              <Typography.Text className="pokemon-name">{pokemon.name}</Typography.Text>
+          response?.data ? response?.data.map(pokemon => (
+            <Col span={12}>
+              <Link href={`/pokemon/${pokemon.name}`}>
+                <Row className="pokemon-card">
+                  <Col>
+                    {
+                      <Typography.Text className="pokemon-name">
+                        {pokemon.name}
+                      </Typography.Text>
+                    }
+                  </Col>
+
+                  <Col className="pokemon-info">
+                    <Row className="pokemon-types">
+                      {
+                        pokemon.type.map(type => (
+                          <Tag color="magenta">{type}</Tag>
+                        ))
+                      }
+                    </Row>
+
+                    <Row>
+                      <img
+                        src={pokemon?.image}
+                        aria-label={pokemon.name}
+                        alt={pokemon.name}
+                      />
+                    </Row>
+                  </Col>
+                </Row>
+              </Link>
             </Col>
-          ))
+          )) : (
+            <Spin
+              indicator={(
+                <LoadingOutlined style={{ fontSize: 24 }} spin />
+              )}
+            />
+          )
         }
       </Row>
       </Layout.Content>

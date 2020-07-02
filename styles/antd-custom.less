@@ -1,14 +1,56 @@
-@primary-color: #F65555;
-@text-color: #666464;
-@white-color: #FFF;
+.ant-layout {
+  background: none !important;
+  padding: 18px 29px;
+  max-width: 1000px;
+  width: 100%;
+  margin: auto;
+}
 
-@heading-color: #3C3939;
-@normal-color: #3C3939;
-@text-color-secondary: #A8A7A7;
-@font-size-base: 16px;
+.ant-layout-content {
+  margin-top: 100px !important;
 
-@border-color-base: rgb(59, 57, 57, .25);
+  > .ant-row {
+    margin: 0 !important;
+  }
+}
 
-@border-radius-base: 13px;
+.ant-layout-header {
+  background: none !important;
+  padding: 0 !important;
 
-@box-shadow-base: 0 2px 8px rgba(0, 0, 0, 0.15);
+  .ant-row,
+  .ant-col {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.ant-typography.application-title {
+  margin: 0;
+  line-height: 1;
+}
+
+.ant-typography.technology-subtitle {
+  font-size: 14px;
+  line-height: 0px;
+  margin: 10px 0 20px;
+}
+
+.ant-input-search {
+  max-width: 250px;
+}
+
+.pokemons-container > .ant-col {
+  padding: 8px 12px 8px 0 !important;
+}
+
+.ant-tag {
+  display: flex !important;
+  justify-content: center;
+
+  &.ant-tag-magenta {
+    background: #F78D8D;
+    border-color: #F78D8D;
+    color: @white-color;
+  }
+}
