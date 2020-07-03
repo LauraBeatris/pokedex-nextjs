@@ -19,7 +19,6 @@
 <p align="center">
    <img src=".github/previews/details.gif" width="500"/>
 </p>
----
 
 # :pushpin: Table of Contents
 
