@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import pokemonData from "pokemon.json";
-import getPokemonImage from "utils/getPokemonImage"
+import formatPokemon from "utils/formatPokemon"
 
 export default (req: NextApiRequest, res: NextApiResponse): void => {
   const { name } = req.query;
@@ -24,13 +24,7 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
       .send(`Pokemon ${name} not found`);
   }
 
-  const pokemon = {
-    ...findPokemon,
-    image: getPokemonImage(findPokemon.name.english),
-    name: findPokemon.name.english
-  }
-
   return res
     .status(200)
-    .send(JSON.stringify(pokemon));
+    .send(JSON.stringify(formatPokemon(findPokemon)));
 };

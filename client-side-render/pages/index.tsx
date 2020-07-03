@@ -25,8 +25,6 @@ const Home: React.FC = () => {
     setSearch(event.target.value);
   }, []);
 
-  console.log(response)
-
   return (
     <Layout className="ant-layout">
       <Layout.Header>

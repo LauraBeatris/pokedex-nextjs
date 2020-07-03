@@ -36,6 +36,7 @@ const Pokemon: React.FC = () => {
            <Row className="layout-content-wrapper">
             <img
                 src={response.data.image}
+                alt={response.data.name}
                 aria-label={response.data.name}
               />
 

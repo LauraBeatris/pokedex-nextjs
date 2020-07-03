@@ -9,13 +9,14 @@ import {
   Row,
   Col,
   Spin,
-  Tag
+  Tag,
 } from "antd";
-import { LoadingOutlined } from '@ant-design/icons';
+import { LoadingOutlined } from "@ant-design/icons";
 import axios from "axios";
+import useSWR from "swr";
 
 import "../../styles/pages/search.less";
-import getPokemonImage from "utils/getPokemonImage"
+import getPokemonImage from "utils/getPokemonImage";
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
@@ -30,7 +31,7 @@ export const getServerSideProps: GetServerSideProps = async ({
   const pokemons = response?.data?.map((pokemon) => ({
     ...pokemon,
     image: getPokemonImage(pokemon.name.english),
-        name: pokemon.name.english,
+    name: pokemon.name.english,
   }));
 
   return {
@@ -41,14 +42,22 @@ export const getServerSideProps: GetServerSideProps = async ({
 };
 
 const Home: React.FC = ({
-  pokemons,
+  pokemons: initialPokemons,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const [pokemons, setPokemons] = useState(initialPokemons);
   const { query } = useRouter();
   const [search, setSearch] = useState(query.name || "");
+  const { data: response } = useSWR(`/api/search?name=${search}`, axios);
 
   const handleSearch = useCallback((event) => {
     setSearch(event.target.value);
   }, []);
+
+  useEffect(() => {
+    if (response?.data) {
+      setPokemons(prev => [...prev, ...response?.data]);
+    }
+  }, [response?.data]);
 
   return (
     <Layout className="ant-layout">
@@ -76,49 +85,47 @@ const Home: React.FC = ({
         </Row>
       </Layout.Header>
       <Layout.Content>
-      <Row gutter={[24, 16]} className="pokemons-container">
-        {
-          pokemons ? pokemons.map(pokemon => (
-            <Col span={12}>
-              <Link href={`/pokemon/${pokemon.name}`}>
-                <Row className="pokemon-card">
-                  <Col>
-                    {
+        <Row gutter={[24, 16]} className="pokemons-container">
+          {
+            pokemons ? pokemons.map(pokemon => (
+              <Col span={12}>
+                <Link href={`/pokemon/${pokemon.name}`}>
+                  <Row className="pokemon-card">
+                    <Col>
                       <Typography.Text className="pokemon-name">
                         {pokemon.name}
                       </Typography.Text>
-                    }
-                  </Col>
+                    </Col>
 
-                  <Col className="pokemon-info">
-                    <Row className="pokemon-types">
-                      {
-                        pokemon.type.map(type => (
+                    <Col className="pokemon-info">
+                      <Row className="pokemon-types">
+                        {
+                        pokemon.type?.map(type => (
                           <Tag color="magenta">{type}</Tag>
                         ))
-                      }
-                    </Row>
+                        }
+                      </Row>
 
-                    <Row>
-                      <img
-                        src={pokemon.image}
-                        aria-label={pokemon.name}
-                        alt={pokemon.name}
-                      />
-                    </Row>
-                  </Col>
-                </Row>
-              </Link>
-            </Col>
-          )) : (
-            <Spin
-              indicator={(
-                <LoadingOutlined style={{ fontSize: 24 }} spin />
-              )}
-            />
-          )
-        }
-      </Row>
+                      <Row>
+                        <img
+                          src={pokemon.image}
+                          aria-label={pokemon.name}
+                          alt={pokemon.name}
+                        />
+                      </Row>
+                    </Col>
+                  </Row>
+                </Link>
+              </Col>
+            )) : (
+              <Spin
+                indicator={(
+                  <LoadingOutlined style={{ fontSize: 24 }} spin />
+                )}
+              />
+            )
+          }
+        </Row>
       </Layout.Content>
     </Layout>
   );
