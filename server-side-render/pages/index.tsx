@@ -2,25 +2,35 @@ import React, { useState, useCallback, useEffect } from "react";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import {
+  Typography,
+  Layout,
+  Input,
+  Row,
+  Col,
+  Spin,
+  Tag
+} from "antd";
+import { LoadingOutlined } from '@ant-design/icons';
 import axios from "axios";
-import useSWR from "swr";
+
+import "../../styles/pages/search.less";
+import getPokemonImage from "utils/getPokemonImage"
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
   query,
 }) => {
-  const apiUrl = req && req.headers && req.headers.host
+  const apiUrl = req?.headers?.host
     ? `http://${req.headers.host}`
     : window.location.origin;
 
-  const response = await axios.get(`${apiUrl}/api/search?name=${query.search}`);
+  const response = await axios.get(`${apiUrl}/api/search?name=${query.name}`);
 
   const pokemons = response?.data?.map((pokemon) => ({
     ...pokemon,
-    image: `/pokemon/${pokemon.name.english
-      .toLowerCase()
-      .replace(" ", "-")}.jpg`,
-    name: pokemon.name.english,
+    image: getPokemonImage(pokemon.name.english),
+        name: pokemon.name.english,
   }));
 
   return {
@@ -31,76 +41,86 @@ export const getServerSideProps: GetServerSideProps = async ({
 };
 
 const Home: React.FC = ({
-  pokemons: initialPokemons,
+  pokemons,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   const { query } = useRouter();
-  const [pokemons, setPokemons] = useState(initialPokemons || []);
   const [search, setSearch] = useState(query.name || "");
-  const { data: response } = useSWR(`/api/search?name=${search}`, axios);
-
-  useEffect(() => {
-    const formattedPokemons = response?.data?.map((pokemon) => {
-      const image = `/pokemon/${pokemon.name.english
-        .toLowerCase()
-        .replace(" ", "-")}.jpg`;
-
-      return {
-        ...pokemon,
-        image,
-        name: pokemon.name.english,
-      };
-    });
-
-    setPokemons(formattedPokemons);
-  }, [response?.data?.map]);
 
   const handleSearch = useCallback((event) => {
     setSearch(event.target.value);
   }, []);
 
   return (
-    <div className="container">
-      <header>
-        <img
-          src="images/pikachu.png"
-          aria-label="Pikachu"
-          alt="Pikachu"
-          title="Pikachu"
-        />
+    <Layout className="ant-layout">
+      <Layout.Header>
+        <Row>
+          <Col>
+            <Typography.Title
+              level={1}
+              className="application-title"
+            >
+              Pokedex
+            </Typography.Title>
+            <Typography.Text className="technology-subtitle">
+              Client Side Rendering
+            </Typography.Text>
+          </Col>
+        </Row>
 
-        <h1>Pokedex</h1>
-      </header>
+        <Row>
+          <Input.Search
+            placeholder="Search for a pokemon"
+            onChange={handleSearch}
+            value={search}
+          />
+        </Row>
+      </Layout.Header>
+      <Layout.Content>
+      <Row gutter={[24, 16]} className="pokemons-container">
+        {
+          pokemons ? pokemons.map(pokemon => (
+            <Col span={12}>
+              <Link href={`/pokemon/${pokemon.name}`}>
+                <Row className="pokemon-card">
+                  <Col>
+                    {
+                      <Typography.Text className="pokemon-name">
+                        {pokemon.name}
+                      </Typography.Text>
+                    }
+                  </Col>
 
-      <section>
-        <input
-          type="text"
-          placeholder="Search for a pokemon"
-          aria-label="Search for a pokemon"
-          onChange={handleSearch}
-          value={search}
-        />
+                  <Col className="pokemon-info">
+                    <Row className="pokemon-types">
+                      {
+                        pokemon.type.map(type => (
+                          <Tag color="magenta">{type}</Tag>
+                        ))
+                      }
+                    </Row>
 
-        {!!pokemons?.length && (
-          <ul>
-            {pokemons.map((pokemon) => (
-              <li key={pokemon.id}>
-                <img
-                  src={pokemon.image}
-                  aria-label={pokemon.name}
-                  alt={pokemon.name}
-                  title={pokemon.title}
-                />
-
-                <Link href={`/pokemon/${pokemon.name}`}>
-                  <strong>{pokemon.name}</strong>
-                </Link>
-                <span>{pokemon.type.join(", ")}</span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
-    </div>
+                    <Row>
+                      <img
+                        src={pokemon.image}
+                        aria-label={pokemon.name}
+                        alt={pokemon.name}
+                      />
+                    </Row>
+                  </Col>
+                </Row>
+              </Link>
+            </Col>
+          )) : (
+            <Spin
+              indicator={(
+                <LoadingOutlined style={{ fontSize: 24 }} spin />
+              )}
+            />
+          )
+        }
+      </Row>
+      </Layout.Content>
+    </Layout>
   );
 };
 

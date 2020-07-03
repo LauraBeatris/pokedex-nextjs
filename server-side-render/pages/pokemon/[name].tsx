@@ -1,12 +1,18 @@
-import Head from "next/head";
+import Link from "next/link";
+import { Spin, Layout, Row, Col, Typography, Tag } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+
+import getPokemonImage from "utils/getPokemonImage";
+import GoBackArrowIcon from "../../public/images/icons/go-back-arrow.svg";
+import "../../../styles/pages/details.less";
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,
   query,
 }) => {
-  const apiUrl = req && req.headers && req.headers.host
+  const apiUrl = req?.headers?.host
     ? `http://${req.headers.host}`
     : window.location.origin;
 
@@ -14,14 +20,10 @@ export const getServerSideProps: GetServerSideProps = async ({
     `${apiUrl}/api/pokemon?name=${escape(query.name as string)}`,
   );
 
-  const image = `/pokemon/${response?.data.name.english
-    .toLowerCase()
-    .replace(" ", "-")}.jpg`;
-
   const pokemon = {
     ...response.data,
-    image,
-    name: response.data.name.english,
+    image: getPokemonImage(response.data.name.english),
+    name: response.data.name.english
   };
 
   return {
@@ -32,32 +34,48 @@ export const getServerSideProps: GetServerSideProps = async ({
 };
 
 const Pokemon: React.FC = ({ pokemon }: InferGetServerSidePropsType<typeof getServerSideProps>) => (
-  <div>
-    <Head>
-      <title>{(pokemon && pokemon.name) || "Pokemon"}</title>
-    </Head>
+  <Layout className="pokemon-details">
+      <Layout.Header className="pokemon-details-header">
+        <Link href="/">
+          <GoBackArrowIcon />
+        </Link>
+      </Layout.Header>
 
-    <h1>{pokemon.name}</h1>
+      {pokemon ? (
+         <Layout.Content>
+           <Row className="layout-content-wrapper">
+            <img
+                src={pokemon.image}
+                aria-label={pokemon.name}
+              />
 
-    <div>
-      <img
-        src={pokemon.image}
-        aria-label={pokemon.name}
-        alt={pokemon.name}
-        title={pokemon.title}
-      />
-    </div>
-
-    <ul>
-      {!!pokemon.base
-          && Object.entries(pokemon.base).map(([key, value]) => (
-            <li key={key}>
-              <strong>{key}</strong>
-              <span>{value}</span>
-            </li>
-          ))}
-    </ul>
-  </div>
+            <Col className="pokemon-info">
+              <Typography.Title
+                  level={1}
+                  className="pokemon-name"
+                >
+                  {pokemon.name}
+                </Typography.Title>
+            </Col>
+            <Col>
+              <ul>
+                {
+                  Object.entries(pokemon.base)
+                    .map(([key, value]) => (
+                      <li key={key}>
+                        <strong>{key}</strong>
+                        <Tag color="magenta">{value}</Tag>
+                      </li>
+                  ))
+                }
+              </ul>
+            </Col>
+           </Row>
+        </Layout.Content>
+      ) : (
+        <Spin indicator={<LoadingOutlined style={{ fontSize: 50 }} spin />} />
+      )}
+    </Layout>
 );
 
 export default Pokemon;

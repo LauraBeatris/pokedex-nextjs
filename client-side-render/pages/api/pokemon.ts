@@ -13,7 +13,7 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
   }
 
   const findPokemon = pokemonData.find(
-    ({ name: { english } }) => english === req.query.name,
+    (pokemon) => pokemon.name.english === req.query.name,
   );
 
   res.setHeader("Content-Type", "application/json");

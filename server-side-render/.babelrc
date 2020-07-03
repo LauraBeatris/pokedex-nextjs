@@ -1,0 +1,12 @@
+{
+  "presets": ["next/babel"],
+  "plugins": [
+    "inline-react-svg",
+    [
+      "import", {
+        "libraryName": "antd",
+        "style": true
+      }
+    ]
+  ]
+}

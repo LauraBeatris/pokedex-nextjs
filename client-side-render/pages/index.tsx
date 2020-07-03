@@ -90,7 +90,7 @@ const Home: React.FC = () => {
           )) : (
             <Spin
               indicator={(
-                <LoadingOutlined style={{ fontSize: 24 }} spin />
+                <LoadingOutlined style={{ fontSize: 50 }} spin />
               )}
             />
           )

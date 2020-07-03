@@ -13,13 +13,11 @@ export default (req: NextApiRequest, res: NextApiResponse): void => {
       pokemon.name.english.match(filterQueryName)
     )
     .slice(0, 10)
-    .map((pokemon) => {
-      return {
-        ...pokemon,
-        image: getPokemonImage(pokemon.name.english),
-        name: pokemon.name.english,
-      };
-    });
+    .map((pokemon) => ({
+      ...pokemon,
+      image: getPokemonImage(pokemon.name.english),
+      name: pokemon.name.english,
+    }));
 
   res.setHeader("Content-Type", "application/json");
 

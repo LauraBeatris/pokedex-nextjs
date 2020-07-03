@@ -30,7 +30,8 @@ const Pokemon: React.FC = () => {
           <GoBackArrowIcon />
         </Link>
       </Layout.Header>
-      {response?.data ? (
+
+      {response.data ? (
          <Layout.Content>
            <Row className="layout-content-wrapper">
             <img
@@ -55,14 +56,14 @@ const Pokemon: React.FC = () => {
                         <strong>{key}</strong>
                         <Tag color="magenta">{value}</Tag>
                       </li>
-                    ))
+                  ))
                 }
               </ul>
             </Col>
            </Row>
         </Layout.Content>
       ) : (
-        <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
+        <Spin indicator={<LoadingOutlined style={{ fontSize: 50 }} spin />} />
       )}
     </Layout>
   );
