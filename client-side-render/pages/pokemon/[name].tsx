@@ -30,17 +30,19 @@ const Pokemon: React.FC = () => {
     <>
       <Head>
         <title>
-          Pokemon | {response.data?.name ? response.data.name : "Pokemon Details"}
+          Pokemon | {response?.data?.name ? response?.data.name : "Pokemon Details"}
         </title>
       </Head>
       <Layout className="pokemon-details">
         <Layout.Header className="pokemon-details-header">
           <Link href="/">
-            <GoBackArrowIcon />
+            <div>
+             <GoBackArrowIcon />
+            </div>
           </Link>
         </Layout.Header>
 
-        {response.data ? (
+        {response?.data ? (
           <Layout.Content>
             <Row className="layout-content-wrapper">
               <img

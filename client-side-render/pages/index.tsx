@@ -48,7 +48,7 @@ const Home: React.FC = () => {
           <Row gutter={[24, 16]} className="pokemons-container">
             {response?.data ? (
               response?.data.map((pokemon) => (
-                <Col span={12}>
+                <Col span={12} key={pokemon.id}>
                   <Link href={`/pokemon/${pokemon.name}`}>
                     <Row className="pokemon-card">
                       <Col>

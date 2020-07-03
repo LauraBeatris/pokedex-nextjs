@@ -39,7 +39,9 @@ const Pokemon: React.FC = ({ pokemon }: InferGetServerSidePropsType<typeof getSe
     <Layout className="pokemon-details">
       <Layout.Header className="pokemon-details-header">
         <Link href="/">
-          <GoBackArrowIcon />
+          <div>
+            <GoBackArrowIcon />
+          </div>
         </Link>
       </Layout.Header>
 
