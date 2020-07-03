@@ -6,12 +6,19 @@
 
 > Explore pokemons with different renders options that a NextJS application provides
 
-[![Author](https://img.shields.io/badge/author-LauraBeatris-000?style=flat-square)](https://github.com/LauraBeatris)
-[![Languages](https://img.shields.io/github/languages/count/LauraBeatris/pokedex-nextjs?color=%23000&style=flat-square)](#)
-[![Stars](https://img.shields.io/github/stars/LauraBeatris/pokedex-nextjs?color=000&style=flat-square)](https://github.com/LauraBeatris/pokedex-nextjs/stargazers)
-[![Forks](https://img.shields.io/github/forks/LauraBeatris/pokedex-nextjs?color=%23000&style=flat-square)](https://github.com/LauraBeatris/pokedex-nextjs/network/members)
-[![Contributors](https://img.shields.io/github/contributors/LauraBeatris/pokedex-nextjs?color=000&style=flat-square)](https://github.com/LauraBeatris/pokedex-nextjs/graphs/contributors)
+[![Author](https://img.shields.io/badge/author-LauraBeatris-F65555?style=flat-square)](https://github.com/LauraBeatris)
+[![Languages](https://img.shields.io/github/languages/count/LauraBeatris/pokedex-nextjs?color=%23F65555&style=flat-square)](#)
+[![Stars](https://img.shields.io/github/stars/LauraBeatris/pokedex-nextjs?color=F65555&style=flat-square)](https://github.com/LauraBeatris/pokedex-nextjs/stargazers)
+[![Forks](https://img.shields.io/github/forks/LauraBeatris/pokedex-nextjs?color=%23F65555&style=flat-square)](https://github.com/LauraBeatris/pokedex-nextjs/network/members)
+[![Contributors](https://img.shields.io/github/contributors/LauraBeatris/pokedex-nextjs?color=F65555&style=flat-square)](https://github.com/LauraBeatris/pokedex-nextjs/graphs/contributors)
 
+<p align="center">
+   <img src=".github/previews/explore.gif" width="500"/>
+</p>
+
+<p align="center">
+   <img src=".github/previews/details.gif" width="500"/>
+</p>
 ---
 
 # :pushpin: Table of Contents
