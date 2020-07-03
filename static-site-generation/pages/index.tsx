@@ -1,78 +1,104 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import {
+  Typography,
+  Layout,
+  Input,
+  Row,
+  Col,
+  Spin,
+  Tag,
+} from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
 import axios from "axios";
 import useSWR from "swr";
 
+import "../../styles/pages/search.less";
+
 const Home: React.FC = () => {
   const { query } = useRouter();
-  const [pokemons, setPokemons] = useState([]);
   const [search, setSearch] = useState(query.name || "");
   const { data: response } = useSWR(`/api/search?name=${search}`, axios);
-
-  useEffect(() => {
-    const formattedPokemons = response?.data?.map((pokemon) => {
-      const image = `/pokemon/${pokemon.name.english
-        .toLowerCase()
-        .replace(" ", "-")}.jpg`;
-
-      return {
-        ...pokemon,
-        image,
-        name: pokemon.name.english,
-      };
-    });
-
-    setPokemons(formattedPokemons);
-  }, [response?.data?.map]);
 
   const handleSearch = useCallback((event) => {
     setSearch(event.target.value);
   }, []);
 
   return (
-    <div className="container">
-      <header>
-        <img
-          src="images/pikachu.png"
-          aria-label="Pikachu"
-          alt="Pikachu"
-          title="Pikachu"
-        />
+    <Layout className="ant-layout">
+      <Layout.Header>
+        <Row>
+          <Col>
+            <Typography.Title
+              level={1}
+              className="application-title"
+            >
+              Pokedex
+            </Typography.Title>
+            <Typography.Text className="technology-subtitle">
+              Client Side Rendering
+            </Typography.Text>
+          </Col>
+        </Row>
 
-        <h1>Pokedex</h1>
-      </header>
-
-      <section>
-        <input
-          type="text"
-          placeholder="Search for a pokemon"
-          aria-label="Search for a pokemon"
-          onChange={handleSearch}
-          value={search}
-        />
-
-        {!!pokemons?.length && (
-          <ul>
-            {pokemons.map((pokemon) => (
-              <li key={pokemon.id}>
-                <img
-                  src={pokemon.image}
-                  aria-label={pokemon.name}
-                  alt={pokemon.name}
-                  title={pokemon.title}
-                />
-
+        <Row>
+          <Input.Search
+            placeholder="Search for a pokemon"
+            onChange={handleSearch}
+            value={search}
+          />
+        </Row>
+      </Layout.Header>
+      <Layout.Content>
+        <Row gutter={[24, 16]} className="pokemons-container">
+          {
+            response?.data ? response?.data.map(pokemon => (
+              <Col span={12}>
                 <Link href={`/pokemon/${pokemon.name}`}>
-                  <strong>{pokemon.name}</strong>
+                  <Row className="pokemon-card">
+                    <Col>
+                      <Typography.Text className="pokemon-name">
+                        {pokemon.name}
+                      </Typography.Text>
+                    </Col>
+
+                    <Col className="pokemon-info">
+                      <Row className="pokemon-types">
+                        {
+                          pokemon.type?.map(type => (
+                            <Tag
+                              color="magenta"
+                              key={type}
+                            >
+                              {type}
+                            </Tag>
+                          ))
+                        }
+                      </Row>
+
+                      <Row>
+                        <img
+                          src={pokemon.image}
+                          aria-label={pokemon.name}
+                          alt={pokemon.name}
+                        />
+                      </Row>
+                    </Col>
+                  </Row>
                 </Link>
-                <span>{pokemon.type.join(", ")}</span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </section>
-    </div>
+              </Col>
+            )) : (
+              <Spin
+                indicator={(
+                  <LoadingOutlined style={{ fontSize: 24 }} spin />
+                )}
+              />
+            )
+          }
+        </Row>
+      </Layout.Content>
+    </Layout>
   );
 };
 

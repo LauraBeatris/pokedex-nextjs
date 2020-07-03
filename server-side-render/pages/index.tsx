@@ -47,7 +47,9 @@ const Home: React.FC = ({
   const [pokemons, setPokemons] = useState(initialPokemons);
   const { query } = useRouter();
   const [search, setSearch] = useState(query.name || "");
-  const { data: response } = useSWR(`/api/search?name=${search}`, axios);
+  const { data: response } = useSWR(`/api/search?name=${search}`, axios, {
+    revalidateOnFocus: false,
+  });
 
   const handleSearch = useCallback((event) => {
     setSearch(event.target.value);
@@ -100,9 +102,14 @@ const Home: React.FC = ({
                     <Col className="pokemon-info">
                       <Row className="pokemon-types">
                         {
-                        pokemon.type?.map(type => (
-                          <Tag color="magenta">{type}</Tag>
-                        ))
+                          pokemon.type?.map(type => (
+                            <Tag
+                              color="magenta"
+                              key={type}
+                            >
+                              {type}
+                            </Tag>
+                          ))
                         }
                       </Row>
 
