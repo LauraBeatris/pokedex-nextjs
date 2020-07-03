@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import pokemonData from "pokemon.json";
-import formatPokemon from "utils/formatPokemon"
+import formatPokemon from "utils/formatPokemon";
 
 export default (req: NextApiRequest, res: NextApiResponse): void => {
   const { name } = req.query;

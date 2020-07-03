@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Head from "next/head";
 import {
   Typography,
   Layout,
@@ -27,6 +28,9 @@ const Home: React.FC = () => {
 
   return (
     <Layout className="ant-layout">
+      <Head>
+        <title>Pokemon | Explore</title>
+      </Head>
       <Layout.Header>
         <Row>
           <Col>

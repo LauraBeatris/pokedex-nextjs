@@ -1,6 +1,9 @@
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Spin, Layout, Row, Col, Typography, Tag } from "antd";
+import Head from "next/head";
+import {
+  Spin, Layout, Row, Col, Typography, Tag,
+} from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import axios from "axios";
 import useSWR from "swr";
@@ -12,7 +15,7 @@ const Pokemon: React.FC = () => {
   const { query } = useRouter();
   const { data: response, error } = useSWR(
     `/api/pokemon?name=${escape(query.name as string)}`,
-    axios
+    axios,
   );
 
   if (error) {
@@ -24,49 +27,56 @@ const Pokemon: React.FC = () => {
   }
 
   return (
-    <Layout className="pokemon-details">
-      <Layout.Header className="pokemon-details-header">
-        <Link href="/">
-          <GoBackArrowIcon />
-        </Link>
-      </Layout.Header>
+    <>
+      <Head>
+        <title>
+          Pokemon | {response.data?.name ? response.data.name : "Pokemon Details"}
+        </title>
+      </Head>
+      <Layout className="pokemon-details">
+        <Layout.Header className="pokemon-details-header">
+          <Link href="/">
+            <GoBackArrowIcon />
+          </Link>
+        </Layout.Header>
 
-      {response.data ? (
-         <Layout.Content>
-           <Row className="layout-content-wrapper">
-            <img
+        {response.data ? (
+          <Layout.Content>
+            <Row className="layout-content-wrapper">
+              <img
                 src={response.data.image}
                 alt={response.data.name}
                 aria-label={response.data.name}
               />
 
-            <Col className="pokemon-info">
-              <Typography.Title
+              <Col className="pokemon-info">
+                <Typography.Title
                   level={1}
                   className="pokemon-name"
                 >
                   {response.data.name}
                 </Typography.Title>
-            </Col>
-            <Col>
-              <ul>
-                {
-                  Object.entries(response.data.base)
-                    .map(([key, value]) => (
-                      <li key={key}>
-                        <strong>{key}</strong>
-                        <Tag color="magenta">{value}</Tag>
-                      </li>
-                  ))
-                }
-              </ul>
-            </Col>
-           </Row>
-        </Layout.Content>
-      ) : (
-        <Spin indicator={<LoadingOutlined style={{ fontSize: 50 }} spin />} />
-      )}
-    </Layout>
+              </Col>
+              <Col>
+                <ul>
+                  {
+                    Object.entries(response.data.base)
+                      .map(([key, value]) => (
+                        <li key={key}>
+                          <strong>{key}</strong>
+                          <Tag color="magenta">{value}</Tag>
+                        </li>
+                      ))
+                  }
+                </ul>
+              </Col>
+            </Row>
+          </Layout.Content>
+        ) : (
+          <Spin indicator={<LoadingOutlined style={{ fontSize: 50 }} spin />} />
+        )}
+      </Layout>
+    </>
   );
 };
 

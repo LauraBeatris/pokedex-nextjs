@@ -1,9 +1,9 @@
 import formatPokemon from "utils/formatPokemon";
 import { Pokemon, PokemonName } from "shared/types";
 
-interface FormattedPokemon extends Omit<Pokemon, 'name'> {
+interface FormattedPokemon extends Omit<Pokemon, "name"> {
   image: string;
-  name: PokemonName['english']
+  name: PokemonName["english"]
 }
 
 /**
@@ -13,7 +13,7 @@ interface FormattedPokemon extends Omit<Pokemon, 'name'> {
  */
 const filterPokemons = (
   pokemons: Pokemon[],
-  filterQueryName: string | RegExp
+  filterQueryName: string | RegExp,
 ): FormattedPokemon[] => {
   const filteredPokemons = pokemons
     .filter((pokemon) => pokemon.name.english.match(filterQueryName))

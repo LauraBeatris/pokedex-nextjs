@@ -1,9 +1,9 @@
 import getPokemonImage from "utils/getPokemonImage";
 import { Pokemon, PokemonName } from "shared/types";
 
-interface FormattedPokemon extends Omit<Pokemon, 'name'> {
+interface FormattedPokemon extends Omit<Pokemon, "name"> {
   image: string;
-  name: PokemonName['english']
+  name: PokemonName["english"]
 }
 
 /**

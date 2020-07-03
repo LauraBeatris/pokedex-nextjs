@@ -5,6 +5,7 @@ import {
 import { LoadingOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
+import Head from "next/head";
 
 import GoBackArrowIcon from "../../public/images/icons/go-back-arrow.svg";
 import "../../../styles/pages/details.less";
@@ -29,49 +30,56 @@ export const getServerSideProps: GetServerSideProps = async ({
 };
 
 const Pokemon: React.FC = ({ pokemon }: InferGetServerSidePropsType<typeof getServerSideProps>) => (
-  <Layout className="pokemon-details">
-    <Layout.Header className="pokemon-details-header">
-      <Link href="/">
-        <GoBackArrowIcon />
-      </Link>
-    </Layout.Header>
+  <>
+    <Head>
+      <title>
+        Pokemon | {pokemon?.name ? pokemon.name : "Pokemon Details"}
+      </title>
+    </Head>
+    <Layout className="pokemon-details">
+      <Layout.Header className="pokemon-details-header">
+        <Link href="/">
+          <GoBackArrowIcon />
+        </Link>
+      </Layout.Header>
 
-    {pokemon ? (
-      <Layout.Content>
-        <Row className="layout-content-wrapper">
-          <img
-            src={pokemon.image}
-            alt={pokemon.name}
-            aria-label={pokemon.name}
-          />
+      {pokemon ? (
+        <Layout.Content>
+          <Row className="layout-content-wrapper">
+            <img
+              src={pokemon.image}
+              alt={pokemon.name}
+              aria-label={pokemon.name}
+            />
 
-          <Col className="pokemon-info">
-            <Typography.Title
-              level={1}
-              className="pokemon-name"
-            >
-              {pokemon.name}
-            </Typography.Title>
-          </Col>
-          <Col>
-            <ul>
-              {
-                Object.entries(pokemon.base)
-                  .map(([key, value]) => (
-                    <li key={key}>
-                      <strong>{key}</strong>
-                      <Tag color="magenta">{value}</Tag>
-                    </li>
-                  ))
-              }
-            </ul>
-          </Col>
-        </Row>
-      </Layout.Content>
-    ) : (
-      <Spin indicator={<LoadingOutlined style={{ fontSize: 50 }} spin />} />
-    )}
-  </Layout>
+            <Col className="pokemon-info">
+              <Typography.Title
+                level={1}
+                className="pokemon-name"
+              >
+                {pokemon.name}
+              </Typography.Title>
+            </Col>
+            <Col>
+              <ul>
+                {
+                  Object.entries(pokemon.base)
+                    .map(([key, value]) => (
+                      <li key={key}>
+                        <strong>{key}</strong>
+                        <Tag color="magenta">{value}</Tag>
+                      </li>
+                    ))
+                }
+              </ul>
+            </Col>
+          </Row>
+        </Layout.Content>
+      ) : (
+        <Spin indicator={<LoadingOutlined style={{ fontSize: 50 }} spin />} />
+      )}
+    </Layout>
+  </>
 );
 
 export default Pokemon;

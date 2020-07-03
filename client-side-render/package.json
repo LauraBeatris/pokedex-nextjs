@@ -9,6 +9,7 @@
     "lint": "eslint --ext .ts,.tsx ./ --fix"
   },
   "dependencies": {
+    "@ant-design/icons": "^4.2.1",
     "antd": "^4.3.5",
     "axios": "^0.19.2",
     "babel-plugin-import": "^1.13.0",
