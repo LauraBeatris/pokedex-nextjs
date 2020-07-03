@@ -78,7 +78,7 @@ const Home: React.FC = ({
                 Pokedex
               </Typography.Title>
               <Typography.Text className="technology-subtitle">
-                Client Side Rendering
+                Server Side Rendering
               </Typography.Text>
             </Col>
           </Row>
