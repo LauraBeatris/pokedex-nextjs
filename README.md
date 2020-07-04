@@ -20,7 +20,9 @@
    <img src=".github/previews/details.gif" width="500"/>
 </p>
 
-### [Check out the live version of the SSG application](https://pokedex-nextjs-neon.vercel.app/)
+<p align="center">
+   <a href="https://pokedex-nextjs-neon.vercel.app/">Check out the live version of the SSG application</a>
+</p>
 
 # :pushpin: Table of Contents
 
