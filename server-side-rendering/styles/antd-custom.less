@@ -1,0 +1,43 @@
+.ant-layout {
+  background: none !important;
+  padding: 18px 29px;
+  max-width: 1000px;
+  width: 100%;
+  margin: auto;
+}
+
+.ant-layout-content {
+  margin-top: 100px !important;
+
+  > .ant-row {
+    margin: 0 !important;
+  }
+}
+
+.ant-layout-header {
+  background: none !important;
+  padding: 0 !important;
+
+  .ant-row,
+  .ant-col {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.ant-input-search {
+  max-width: 250px;
+}
+
+.ant-tag {
+  display: flex !important;
+  justify-content: center;
+  font-size: @font-size-xs !important;
+  font-weight: 500;
+
+  &.ant-tag-magenta {
+    background: @secondary-color;
+    border-color: @secondary-color;
+    color: @white-color;
+  }
+}

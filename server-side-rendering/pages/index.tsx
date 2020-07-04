@@ -18,8 +18,7 @@ import { motion } from "framer-motion";
 
 import fadeInUp from "animations/fadeInUp";
 import getPokemonImage from "utils/getPokemonImage";
-
-import "../../styles/pages/search.less";
+import "styles/pages/search.less";
 
 export const getServerSideProps: GetServerSideProps = async ({
   req,

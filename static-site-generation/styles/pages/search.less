@@ -1,0 +1,74 @@
+.pokemons-container {
+  margin: 0;
+  max-width: 100%;
+  justify-content: center;
+}
+
+.pokemon-card {
+  display: flex;
+  flex-direction: column !important;
+  background-color: @primary-color;
+  border-radius: 8px;
+  min-height: 184px;
+  padding: 18px;
+  cursor: pointer;
+  height: 100%;
+
+  img {
+    width: 88px;
+    height: 76px;
+    border-radius: 13px;
+  }
+
+  .pokemon-name {
+    font-weight: bold;
+    color: @white-color;
+    font-size: @font-size-md;
+    max-width: 100%;
+    overflow: hidden;
+    width: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+  }
+
+  .pokemon-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 !important;
+    flex-wrap: wrap;
+    flex: 1;
+
+    margin-top: 28px;
+
+    .pokemon-types {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 11px;
+
+      .ant-tag + .ant-tag {
+        margin-top: 11px;
+      }
+    }
+  }
+}
+
+.ant-typography.application-title {
+  margin: 0;
+  line-height: 1;
+}
+
+.ant-typography.technology-subtitle {
+  font-size: 14px;
+  line-height: 0px;
+  margin: 10px 0 20px;
+}
+
+.pokemons-container > .ant-col {
+  padding: 8px 12px 8px 0 !important;
+}
+
+.pokemons-container .motion-container {
+  height: 100%;
+}

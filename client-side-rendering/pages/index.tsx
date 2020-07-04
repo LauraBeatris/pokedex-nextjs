@@ -16,8 +16,7 @@ import useSWR from "swr";
 import { motion } from "framer-motion";
 
 import fadeInUp from "animations/fadeInUp";
-
-import "../../styles/pages/search.less";
+import "styles/pages/search.less";
 
 const Home: React.FC = () => {
   const [search, setSearch] = useState("");

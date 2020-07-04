@@ -5,7 +5,7 @@ import Head from "next/head";
 import NProgress from "nprogress";
 
 import "antd/dist/antd.css";
-import "../../styles/main.less";
+import "styles/main.less";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());

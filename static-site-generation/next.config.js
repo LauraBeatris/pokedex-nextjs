@@ -6,7 +6,7 @@ const fs = require('fs')
 const path = require('path')
 
 const themeVariables = lessToJS(
-  fs.readFileSync(path.resolve(__dirname, '..', 'styles/antd-theme.less'), 'utf8')
+  fs.readFileSync(path.resolve(__dirname, 'styles', 'antd-theme.less'), 'utf8')
 )
 
 module.exports = withImages(withCSS(withLess({
