@@ -12,8 +12,8 @@ import { motion } from "framer-motion";
 import stagger from "animations/stagger";
 import fadeInUp from "animations/fadeInUp";
 
-import GoBackArrowIcon from "public/images/icons/go-back-arrow.svg";
 import "styles/pages/details.less";
+import GoBackArrowIcon from "../../public/images/icons/go-back-arrow.svg";
 
 const Pokemon: React.FC = () => {
   const { query } = useRouter();

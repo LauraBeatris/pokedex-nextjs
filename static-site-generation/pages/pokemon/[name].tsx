@@ -18,8 +18,8 @@ import fadeInUp from "animations/fadeInUp";
 import formatPokemon from "utils/formatPokemon";
 import pokemons from "pokemon.json";
 
-import GoBackArrowIcon from "public/images/icons/go-back-arrow.svg";
 import "styles/pages/details.less";
+import GoBackArrowIcon from "../../public/images/icons/go-back-arrow.svg";
 
 export const getStaticPaths: GetStaticPaths = async () => ({
   paths: pokemons.map((pokemon) => ({
