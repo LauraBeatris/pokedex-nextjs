@@ -20,6 +20,8 @@
    <img src=".github/previews/details.gif" width="500"/>
 </p>
 
+### [Check out the live version of the SSG application](https://pokedex-nextjs-neon.vercel.app/)
+
 # :pushpin: Table of Contents
 
 * [Features](#rocket-features)
