@@ -33,7 +33,9 @@ const Pokemon: React.FC = ({ pokemon }: InferGetServerSidePropsType<typeof getSe
   <>
     <Head>
       <title>
-        Pokemon | {pokemon?.name ? pokemon.name : "Pokemon Details"}
+        Pokemon |
+        {" "}
+        {pokemon?.name ? pokemon.name : "Pokemon Details"}
       </title>
     </Head>
     <Layout className="pokemon-details">
