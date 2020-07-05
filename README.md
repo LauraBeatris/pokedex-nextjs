@@ -80,7 +80,7 @@ Run the following command in order to start the application in a development env
 
 **Question:** What are the tecnologies used in this project?
 
-**Answer:** The tecnologies used in this project are [NextJS](https://nextjs.org/) + [Ant Design](https://ant.design/)
+**Answer:** The tecnologies used in this project are [NextJS](https://nextjs.org/) + [Ant Design](https://ant.design/) + [Framer Motion](https://www.framer.com/motion/)
 
 # :bug: Issues
 
