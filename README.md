@@ -44,8 +44,8 @@
 # :dart: Goals
 
 The goal of this project is to explore the different render methods that the NextJS framework provides, such as:
-  - [Client Side Rendering](https://github.com/LauraBeatris/pokedex-nextjs/tree/master/client-side-render)
-  - [Server Side Rendering](https://github.com/LauraBeatris/pokedex-nextjs/tree/master/server-side-render)
+  - [Client Side Rendering](https://github.com/LauraBeatris/pokedex-nextjs/tree/master/client-side-rendering)
+  - [Server Side Rendering](https://github.com/LauraBeatris/pokedex-nextjs/tree/master/server-side-rendering)
   - [Static Site Generation](https://github.com/LauraBeatris/pokedex-nextjs/tree/master/static-site-generation)
 
 # :construction_worker: Installation
